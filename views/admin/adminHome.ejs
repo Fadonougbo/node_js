@@ -12,6 +12,9 @@ const [error_message]=res.flash("error_message")
 <main>
     <h1>Admin</h1>
     <div>
+        <a href="/admin/create">Creer un article</a>
+    </div>
+    <div>
         <% links.forEach(element => { %>
             <button><%- element  %></button>
         <% }) %>

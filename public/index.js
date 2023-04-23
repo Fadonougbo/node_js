@@ -8,6 +8,7 @@ import { ShowArticle } from "../App/modules/home/ShowArticle.js"
 import { Admin } from "../App/modules/admin/Admin.js"
 import { DeleteArticle } from "../App/modules/admin/DeleteArticle.js"
 import { UpdateArticle } from "../App/modules/admin/UpdateArticle.js"
+import { CreateArticle } from "../App/modules/admin/CreateArticle.js"
 
 /**
  * @var {fastify} fastify
@@ -24,7 +25,7 @@ new App(fastify,
         {
             MainModule:Admin,
             visible:true,
-            childrenModule:[DeleteArticle,UpdateArticle]
+            childrenModule:[DeleteArticle,UpdateArticle,CreateArticle]
         }
     ])
 

@@ -1,0 +1,36 @@
+<%- include('../mutualViews/header.ejs',
+{
+    title:"Create"
+})
+%>
+
+<main>
+    <h1>Creation d'article</h1>
+    <form action="" method="POST">
+        <div>
+            <input type="text" name="name" id="" value="<%= body?.name||'' %>" placeholder="ex:lorem" > 
+            <p><%= validationError?.name||'' %></p>
+        </div>
+
+        <div>
+            <input type="text" name="slug" id="" value="<%= body?.slug||'' %>" placeholder="ex:slug-test">
+            <p><%= validationError?.slug||'' %></p>
+        </div>
+
+        <div>
+            <textarea name="content" id="" cols="30" rows="10" placeholder="Article content"><%= body?.content||'' %></textarea>
+            <p><%= validationError?.content||'' %></p>
+        </div>
+
+        <div>
+            <%- include("select",{allCategorieInfo}) %>
+            <p><%= validationError?.categoriesLIst||'' %></p>
+        </div>
+
+        <div>
+            <button>Creer l'article</button>
+        </div>
+    </form>
+</main>
+
+<%- include('../mutualViews/footer.ejs') %>   

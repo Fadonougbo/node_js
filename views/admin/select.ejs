@@ -1,5 +1,11 @@
 <% 
-const articleCategorie=categories[articles_name]||[]
+let articleCategorie=[]
+
+if(locals.categories)
+{
+    //Info sur les categories de l'article en cours de modification
+     articleCategorie=categories[articles_name]||[]
+}
 
 %>
 
@@ -10,9 +16,9 @@ const articleCategorie=categories[articles_name]||[]
             <%
                  let isSelected=false
 
-                 articleCategorie.forEach((articleCategorie)=>{
+                 articleCategorie.forEach((el)=>{
                     
-                    if (articleCategorie.name===categorie.categories_name)
+                    if (el.name===categorie.categories_name)
                     {
                         isSelected=true
                     }

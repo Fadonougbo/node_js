@@ -35,7 +35,7 @@ export class Read  extends GlobaleAction
     async getElements(limit,offset,tableName)
     {
         const connection=await this.fastify.mysql.getConnection()
-        const [rows,fields]=await connection.query(`SELECT * FROM ${tableName} ORDER BY article_created_at LIMIT ? OFFSET ? `,[limit,offset])
+        const [rows,fields]=await connection.query(`SELECT * FROM ${tableName} ORDER BY article_created_at DESC LIMIT ? OFFSET ? `,[limit,offset])
         connection.release()
 
         const idList=rows.map((el)=>

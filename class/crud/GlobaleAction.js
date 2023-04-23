@@ -97,4 +97,60 @@ export class GlobaleAction
             return lists
 
     }
+
+    /**
+     * Supprime les anciennes categorie de l'article
+     * @param {number} id 
+     * @returns {object}
+     */
+    async deleteOldCategorieLiaison(id)
+   {
+        const connection=await this.fastify.mysql.getConnection()
+        const query="DELETE FROM categories_articles  WHERE articles_id=?"
+        const [rows,fields]=await connection.query(query,[id])
+        connection.release()
+        return rows
+   }
+
+   /**
+    * Ajoute les nouvelles liaisons
+    * @param {number} id 
+    * @param {number|number[]} categorieId 
+    * @param {number[]} allCategorieId 
+    * @returns {object}
+    */
+   async updateCategorieArticleLiaison(id,categorieId,allCategorieId)
+   {
+
+        await this.deleteOldCategorieLiaison(id)
+
+        if (categorieId)
+        {   
+
+            let value=false 
+            
+            if(Array.isArray(categorieId))
+            {
+                const valideId=allCategorieId.filter((el)=>categorieId.includes(el))
+
+                value=(valideId.map((el)=>`(${id},${el})`)).join(",")
+            }else 
+            {
+                value=allCategorieId.includes(categorieId)?`(${id},${categorieId})`:false
+            }
+
+            if(value)
+            {
+                const connection=await this.fastify.mysql.getConnection()
+                const query=`INSERT INTO  categories_articles  VALUES${value}`
+                const [rows,fields]=await connection.query(query)
+                connection.release()
+
+                return rows
+            }
+
+        }
+
+
+   }
 }
