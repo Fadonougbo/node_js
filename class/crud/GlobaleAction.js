@@ -49,7 +49,26 @@ export class GlobaleAction
 
     }
 
+    /**
+     * Verifie l'existance d'un slug suivant un update ou un create
+     * @param {string} slug 
+     * @param {number} id 
+     * @param {string} type 
+     * @returns {Promise<number>}
+     */
+    async slugExistVerification(slug,type,id=null)
+    {
+        let query=`SELECT COUNT(*) as total FROM articles WHERE articles_slug=?  `
+        if(type==="update" && id!==null)
+        {
+            query+=" AND id NOT IN(?)"
+        }
+        const connection=await this.fastify.mysql.getConnection()
+        const [rows,fields]=await connection.query(query,[slug,id])
+        connection.release()
 
+        return rows[0].total
+    }
     
     /**
      * Donne les categories lié au articles

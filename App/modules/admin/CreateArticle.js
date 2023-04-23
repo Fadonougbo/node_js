@@ -36,14 +36,22 @@ export class CreateArticle extends Create
                     categoriesLIst:z.array(z.string()).or(z.string()).or(z.optional())
                     
                 })
-
+                const {slug}=req.body
                 articleShema.parse(req.body);
 
-                const data=await this.createArticle(this.tableName,req.body)
-                await this.updateCategorieArticleLiaison(data,req.body.categoriesLIst,allCategorieId)
+                const val=await this.slugExistVerification(slug,"create")
+                if(val>=1)
+                {
+                    req.flash("error_message","Ce slug exist déja")
+                }else 
+                {
+                    const data=await this.createArticle(this.tableName,req.body)
+                    await this.updateCategorieArticleLiaison(data,req.body.categoriesLIst,allCategorieId)
 
-                req.flash("success_message","Article bien Ajouté ")
-                return  res.redirect(`/admin`)
+                    req.flash("success_message","Article bien Ajouté ")
+                    return  res.redirect(`/admin`)
+                }
+                
 
             }catch(err)
             {
@@ -65,7 +73,7 @@ export class CreateArticle extends Create
 
         const {body}=req
 
-        return res.view("views/admin/create",{validationError,allCategorieInfo,body})
+        return res.view("views/admin/create",{validationError,allCategorieInfo,body,res})
     }
 
 }

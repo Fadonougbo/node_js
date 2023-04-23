@@ -15,7 +15,7 @@ export class Update extends GlobaleAction
    {
     const {name,slug,content}=body
     const articleId=parseInt(id)
-    const newDate=Date.now();
+    const newDate=(new Date()).toJSON();
 
     const connection=await this.fastify.mysql.getConnection()
     const query="UPDATE articles SET articles_name=?,articles_content=?,articles_slug=?,article_created_at=? WHERE id=?"

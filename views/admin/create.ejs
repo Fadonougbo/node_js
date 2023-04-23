@@ -4,8 +4,17 @@
 })
 %>
 
+<% 
+const error_message=res.flash('error_message')
+const success_message=res.flash("success_message")
+%>
+
 <main>
     <h1>Creation d'article</h1>
+    <section>
+        <%= error_message||"" %>
+        <%= success_message||"" %>
+    </section>
     <form action="" method="POST">
         <div>
             <input type="text" name="name" id="" value="<%= body?.name||'' %>" placeholder="ex:lorem" > 

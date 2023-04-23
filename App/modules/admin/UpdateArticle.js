@@ -40,13 +40,23 @@ export class UpdateArticle extends Update
                     
                 })
 
+                const {slug}=req.body
                 articleShema.parse(req.body);
 
-                await this.updateArticle(id,req.body)
-                await this.updateCategorieArticleLiaison(id,req.body.categoriesLIst,allCategorieId)
+                const val=await this.slugExistVerification(slug,"update",id)
 
-                req.flash("success_message","Article bien modifié ")
-                return  res.redirect(`/admin?p=${req.query.pos}`)
+                if(val>=1)
+                {
+                    req.flash("error_message","Ce slug exist déja")
+
+                }else{
+
+                    await this.updateArticle(id,req.body)
+                    await this.updateCategorieArticleLiaison(id,req.body.categoriesLIst,allCategorieId)
+
+                    req.flash("success_message","Article bien modifié ")
+                    return  res.redirect(`/admin?p=${req.query.pos}`)
+                }
 
             }catch(err)
             {
@@ -68,7 +78,7 @@ export class UpdateArticle extends Update
 
         const {body}=req
 
-        return res.view("views/admin/update.ejs",{currentArticle,validationError,allCategorieInfo,categories,body})
+        return res.view("views/admin/update.ejs",{currentArticle,validationError,allCategorieInfo,categories,body,res})
     }
 
 }
