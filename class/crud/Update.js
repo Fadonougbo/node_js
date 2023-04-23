@@ -1,28 +1,15 @@
+import { GlobaleAction } from "./GlobaleAction.js";
 
 
-export class Update 
+export class Update extends GlobaleAction
 {
 
     constructor(fastify)
     {
+        super(fastify)
         this.fastify=fastify
     }
 
-    /**
-     * 
-     * @param {number} id 
-     * @returns {[]} article
-     */
-   async  getCurrentArticle(id)
-   {
-       const articleId=parseInt(id)
-
-       const connection=await this.fastify.mysql.getConnection()
-       const [rows,fields]=await connection.query("SELECT * FROM articles WHERE id=?",[articleId])
-       connection.release()
-
-       return rows
-   }
 
    async updateArticle(id,body)
    {

@@ -1,7 +1,6 @@
 /* eslint-disable @babel/object-curly-spacing */
 import { Read } from "../../../class/crud/Read.js"
 import { Paginate } from "../../../class/pagination/Paginate.js"
-import { getArticlesCategorie } from "../../../functions/getArticlesCategorie.js"
 
 export class Home extends Read
 {
@@ -15,6 +14,8 @@ export class Home extends Read
 
         this.index=this.index.bind(this)
 
+        this.tableName="articles"
+
         /**
          * Router
          */
@@ -24,25 +25,33 @@ export class Home extends Read
     async index(req,res)
     {
 
-        const totalArticles=await this.getTotaleArticles()
+        try {
+            
+            const totalArticles=await this.getTotaleElement(this.tableName)
 
-        const limit=6
+            const limit=6
 
-        const paginate=new Paginate({
-            totaleElementsByPage:limit,
-            totaleElements:totalArticles,
-            request:req,
-            baseUrl:"/"
-        })
+            const paginate=new Paginate({
+                totaleElementsByPage:limit,
+                totaleElements:totalArticles,
+                request:req,
+                baseUrl:"/"
+            })
 
-        const offset=paginate.getOffset()
+            const offset=paginate.getOffset()
 
-        const links=paginate.getHtmlLinks()
+            const links=paginate.getHtmlLinks()
 
-        const [articles,idList]=await this.getArticles(limit,offset)
+            const [articles,idList]=await this.getElements(limit,offset,this.tableName)
 
-        const categories=await getArticlesCategorie(idList,this.fastify)
+            const categories=await this.getArticlesCategorie(idList)
+
+            return res.view("views/home/home",{articles,links,categories});
+
+        } catch (error) {
+                
+            console.log(error.message);
+        }
         
-        return res.view("views/home/home.ejs",{articles,links,categories});
     }
 }

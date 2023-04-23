@@ -26,10 +26,10 @@ export class DeleteArticle extends Delete
 
         if(status)
         {
-            req.flash("delete_message","Article bien supprimé ")
+            req.flash("success_message","Article bien supprimé ")
             return res.redirect(`/admin?p=${pos}`)
         }
-        req.flash("delete_message","L'article n'a pas été supprimé")
+        req.flash("error_message","L'article n'a pas été supprimé")
         return res.redirect(`/admin?p=${pos}`)
     }
 }

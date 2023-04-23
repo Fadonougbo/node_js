@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable @babel/object-curly-spacing */
 import fastifyMysql from "@fastify/mysql";
 import fastifyView from "@fastify/view"
@@ -37,9 +38,9 @@ export class App
 
         this.fastify.register(fastifyMysql,{
             promise:true,
-            database:"blog",
-            password:"root",
-            user:"root"
+            database:process.env.DBNAME,
+            password:process.env.PASSWORD,
+            user:process.env.USER
         })
 
         this.fastify.register(fastifyFormbody)

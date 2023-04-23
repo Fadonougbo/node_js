@@ -5,7 +5,8 @@
 %>
 
 <% 
-const [delete_mesage]=res.flash("delete_message")
+const [success_message]=res.flash("success_message")
+const [error_message]=res.flash("error_message")
 %>
 
 <main>
@@ -16,11 +17,8 @@ const [delete_mesage]=res.flash("delete_message")
         <% }) %>
     </div>
     <section>
-        <% if (delete_mesage!==undefined) { %>
-
-         <h2><%= delete_mesage %></h2>
-
-        <% } %>
+        <%= success_message||"" %>
+        <%= error_message||"" %>
     </section>
     <% articles.forEach((article) => { %>
         <% 

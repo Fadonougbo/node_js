@@ -1,8 +1,6 @@
 /* eslint-disable @babel/object-curly-spacing */
 import { z } from "zod"
 import { Update } from "../../../class/crud/Update.js"
-import { getArticlesCategorie } from "../../../functions/getArticlesCategorie.js"
-import { getAllCategorieInfo } from "../../../functions/getAllCategorieInfo.js"
 
 export class UpdateArticle extends Update
 {
@@ -10,9 +8,10 @@ export class UpdateArticle extends Update
     {   
         super(fastify)
         this.fastify=fastify
+        
+        this.tableName="articles"
 
         this.index=this.index.bind(this)
-
         this.fastify.get("/admin/update/:slug/:id",this.index)
         this.fastify.post("/admin/update/:slug/:id",this.index)
     }
@@ -21,9 +20,9 @@ export class UpdateArticle extends Update
     {
 
         const {id}=req.params
-        const [currentArticle]=await this.getCurrentArticle(id)
-        const categories=await getArticlesCategorie(id,this.fastify)
-        const allCategorieInfo=await getAllCategorieInfo(this.fastify)
+        const currentArticle=await this.getElement(id,this.tableName)
+        const categories=await this.getArticlesCategorie(id)
+        const allCategorieInfo=await this.getAllCategorieInfo()
 
         const allCategorieId=allCategorieInfo.map((el)=>el.id+'')
 
@@ -46,7 +45,8 @@ export class UpdateArticle extends Update
                 await this.updateArticle(id,req.body)
                 await this.updateCategorieArticleLiaison(id,req.body.categoriesLIst,allCategorieId)
 
-              return  res.redirect(`/admin?p=${req.query.pos}`)
+                req.flash("success_message","Article bien modifié ")
+                return  res.redirect(`/admin?p=${req.query.pos}`)
 
             }catch(err)
             {

@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable @babel/object-curly-spacing */
 /* eslint-disable @babel/new-cap */
 import Fastify from "fastify"
@@ -38,7 +39,7 @@ new App(fastify,
 
 try
 {
-    fastify.listen({port:8001})
+    fastify.listen({port:process.env.PORT})
 }catch(error)
 {
     process.exit(1)

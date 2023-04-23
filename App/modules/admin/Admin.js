@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable @babel/object-curly-spacing */
 import { Read } from "../../../class/crud/Read.js"
 import { Paginate } from "../../../class/pagination/Paginate.js"
@@ -10,15 +11,14 @@ export class Admin extends Read
         this.fastify=fastify
 
         this.index=this.index.bind(this)
+        this.tableName="articles"
 
         this.fastify.get("/admin",this.index)
     }
 
     async index(req,res)
     {
-
-
-        const totalArticles=await this.getTotaleArticles()
+        const totalArticles=this.getTotaleElement(this.tableName)
 
         const limit=6
 
@@ -33,7 +33,7 @@ export class Admin extends Read
 
         const links=paginate.getHtmlLinks()
 
-        const [articles,idList]=await this.getArticles(limit,offset)
+        const [articles,idList]=await this.getElements(limit,offset,this.tableName)
 
         const paginationParams=req.query.p||1
 

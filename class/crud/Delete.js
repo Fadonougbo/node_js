@@ -1,37 +1,33 @@
 /* eslint-disable @babel/object-curly-spacing */
-import { Read } from "./Read.js";
+import { GlobaleAction } from "./GlobaleAction.js";
 
-export class Delete extends Read
+export class Delete extends GlobaleAction
 {
     constructor(fastify)
     {
         super(fastify)
         this.fastify=fastify
 
+        this.tableName="articles"
         this.delete=this.delete.bind(this)
     }
 
-   async delete(slug,id)
+    async delete(slug,elementId)
     {
-        const article=await this.getCurrentArticle(id)
+        const {id,articles_slug}=await this.getElement(elementId,this.tableName)
 
-
-       if(article.length===0)
+       if(id===undefined)
        {
             return false;
        }
 
-       const current_articleId=article[0].id
-
-       const current_articleSlug=article[0].articles_slug
-
-       if(current_articleSlug!==slug)
+       if(articles_slug!==slug)
        {
             return false
        }
         
         const connection=await this.fastify.mysql.getConnection()
-        const [rows,fields]=await connection.query("DELETE FROM articles WHERE id=? ",[current_articleId])
+        const [rows,fields]=await connection.query("DELETE FROM articles WHERE id=? ",[id])
         connection.release()
 
         return rows.affectedRows===1
