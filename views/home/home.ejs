@@ -1,0 +1,39 @@
+<%- include('../mutualViews/header.ejs',
+{
+    title:"Home"
+})
+%>
+
+<main>
+    <h1>Home</h1>
+    <div>
+        <% links.forEach(element => { %>
+            <button><%- element  %></button>
+        <% }) %>
+    </div>
+    <% articles.forEach((article) => { %>
+        <% 
+            const date=article.article_created_at
+
+            const formatDate=(new Date(date)).toLocaleDateString()
+
+            const subStrArticle=article.articles_content.substr(0,200)+"..."
+
+            const articleName=article.articles_name
+        %>
+     <div>
+        <h2>
+            <%= articleName %>
+           <%- include("./categorieList.ejs",{categories,articleName}) %>
+            <span><%= formatDate %></span>
+
+        </h2>
+        <p>
+            <%= subStrArticle  %>
+            <a href="/show/<%= article.articles_slug %>/<%= article.id %>">lire la suite</a>
+        </p>
+     </div>
+    <% }) %>
+</main>
+
+<%- include('../mutualViews/footer.ejs') %>    

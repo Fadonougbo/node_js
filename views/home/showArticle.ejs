@@ -1,0 +1,20 @@
+<% 
+    const date=article.article_created_at
+
+    const formatDate=(new Date(date)).toLocaleDateString()
+%>
+     <div>
+        <a href="/">Home</a>
+        <h2>
+            <% 
+                const articleName=article.articles_name
+            %>
+            <%= articleName %>
+            <%- include("./categorieList.ejs",{categories,articleName}) %>
+            <span><%= formatDate %></span>
+
+        </h2>
+        <p>
+            <%= article.articles_content  %>
+        </p>
+     </div>

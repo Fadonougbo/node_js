@@ -1,0 +1,19 @@
+<% 
+const categoriesList=categories[articleName]||""
+
+%>
+
+<% if (Array.isArray(categoriesList)) { %>
+
+    <% categoriesList.forEach(element => { %>
+        <em><%= element.name %></em>
+    <% }) %>
+
+<% } else { %>
+    <em>aucune categorie</em>
+<% } %>
+
+
+ 
+ 
+

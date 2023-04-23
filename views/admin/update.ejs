@@ -1,0 +1,43 @@
+<%- include('../mutualViews/header.ejs',
+{
+    title:"update"
+})
+%>
+
+<% 
+
+const {id,articles_name,articles_content,article_created_at,articles_slug}=currentArticle
+
+
+%>
+
+<main>
+    <h1>Modification d'article</h1>
+    <form action="" method="POST">
+        <div>
+            <input type="text" name="name" id="" value="<%= body?.name||articles_name %>"> 
+            <p><%= validationError?.name||'' %></p>
+        </div>
+
+        <div>
+            <input type="text" name="slug" id="" value="<%= body?.slug||articles_slug %>">
+            <p><%= validationError?.slug||'' %></p>
+        </div>
+
+        <div>
+            <textarea name="content" id="" cols="30" rows="10" placeholder="Article content"><%= body?.content||articles_content %></textarea>
+            <p><%= validationError?.content||'' %></p>
+        </div>
+
+        <div>
+            <%- include("select",{allCategorieInfo,categories,articles_name}) %>
+            <p><%= validationError?.categoriesLIst||'' %></p>
+        </div>
+
+        <div>
+            <button>Modifier</button>
+        </div>
+    </form>
+</main>
+
+<%- include('../mutualViews/footer.ejs') %>   

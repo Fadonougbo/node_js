@@ -1,0 +1,60 @@
+<%- include('../mutualViews/header.ejs',
+{
+    title:"Admin"
+})
+%>
+
+<% 
+const [delete_mesage]=res.flash("delete_message")
+%>
+
+<main>
+    <h1>Admin</h1>
+    <div>
+        <% links.forEach(element => { %>
+            <button><%- element  %></button>
+        <% }) %>
+    </div>
+    <section>
+        <% if (delete_mesage!==undefined) { %>
+
+         <h2><%= delete_mesage %></h2>
+
+        <% } %>
+    </section>
+    <% articles.forEach((article) => { %>
+        <% 
+            const articleName=article.articles_name
+
+            const articleSlug=article.articles_slug
+
+            const articleId=article.id
+
+        %>
+     <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><a href="/show/<%= articleSlug %>/<%= articleId %>"><%= articleName %></a></td>
+                    <td>
+                        <a href="/admin/update/<%= articleSlug %>/<%= articleId %>?pos=<%= paginationParams %>">Update</a>
+                    </td>
+                    <td>
+                        <form action="/admin/delete/<%= articleSlug %>/<%= articleId %>?pos=<%= paginationParams %>" method="POST">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+     </div>
+    <% }) %>
+</main>
+
+<%- include('../mutualViews/footer.ejs') %>    
