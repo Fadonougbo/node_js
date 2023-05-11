@@ -9,6 +9,8 @@ import { Admin } from "../App/modules/admin/Admin.js"
 import { DeleteArticle } from "../App/modules/admin/DeleteArticle.js"
 import { UpdateArticle } from "../App/modules/admin/UpdateArticle.js"
 import { CreateArticle } from "../App/modules/admin/CreateArticle.js"
+import { DashBoad } from "../App/modules/dashboad/DashBoad.js"
+//import fastifyJwt from "@fastify/jwt"
 
 /**
  * @var {fastify} fastify
@@ -26,17 +28,24 @@ new App(fastify,
             MainModule:Admin,
             visible:true,
             childrenModule:[DeleteArticle,UpdateArticle,CreateArticle]
+        },
+        {
+            MainModule:DashBoad,
+            visible:true,
+            childrenModule:[]
         }
     ])
 
 
+    /* fastify.register(fastifyJwt,{
+        sign:{algorithm:"HS256",}
+    })
 
- /* fastify.get("/test",async (req,res)=>
+ fastify.get("/test",async (req,res)=>
 {
-  console.log(req.query)
+  console.log(fastify.jwt.sign({},{}))
   return  res.send("ok")
 }) */
-
 
 try
 {

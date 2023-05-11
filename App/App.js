@@ -5,6 +5,8 @@ import fastifyView from "@fastify/view"
 import fastifyFormbody from "@fastify/formbody";
 import fastifySecureSession from "@fastify/secure-session";
 import fastifyFlash from "@fastify/flash"
+import fastifyJwt from "@fastify/jwt";
+import fastifyMailer from "fastify-mailer"
 import ejs from "ejs";
 import {readFileSync} from "node:fs"
 import { convertFileUrlToPath } from "../functions/convertFileUrlToPath.js";
@@ -54,6 +56,18 @@ export class App
         })
 
         this.fastify.register(fastifyFlash)
+
+        this.fastify.register(fastifyMailer,{
+            transport: {
+                host: process.env.EMAIL_HOST,
+                port: process.env.EMAIL_PORT,
+            }
+        })
+
+        this.fastify.register(fastifyJwt,{
+            secret:"gautier",
+            
+        })
     }
 
     initModule()

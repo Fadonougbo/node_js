@@ -28,11 +28,16 @@ export class UpdateArticle extends Update
 
         let validationError={}
 
+        const body=req.body
+
         if (req.method==="POST")
         {
+            
+
             try 
             {
                 const articleShema=z.object({
+                    
                     name:z.string().min(5,{message:"minimun 5 caratères"}),
                     slug:z.string().min(5,{message:"minimun 5 caratères"}).regex(/(^.+[_-]?)+([^\W|_]+$)/i,{message:"Slug invalide"}),
                     content:z.string().min(5,{message:"minimun 5 caratères"}),
@@ -40,8 +45,8 @@ export class UpdateArticle extends Update
                     
                 })
 
-                const {slug}=req.body
-                articleShema.parse(req.body);
+                const {slug}=body
+                articleShema.parse(body);
 
                 const val=await this.slugExistVerification(slug,"update",id)
 
@@ -76,7 +81,6 @@ export class UpdateArticle extends Update
 
         }
 
-        const {body}=req
 
         return res.view("views/admin/update.ejs",{currentArticle,validationError,allCategorieInfo,categories,body,res})
     }

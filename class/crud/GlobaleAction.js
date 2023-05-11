@@ -71,9 +71,9 @@ export class GlobaleAction
     }
     
     /**
-     * Donne les categories lié au articles
+     * Donne les categories lié à un article ou a des articles
      * 
-     * @param {number[]} articleIds article id/id list
+     * @param {number[]|number} articleIds article id/id list
      * @param {fastify} fastify
      * @returns {object}
      */

@@ -13,19 +13,23 @@ if(locals.categories)
     <select name="categoriesLIst" id="" multiple>
 
         <% allCategorieInfo.forEach(categorie => { %>
+            
             <%
                  let isSelected=false
 
-                 articleCategorie.forEach((el)=>{
+                 articleCategorie.forEach((currentCategorie)=>{
                     
-                    if (el.name===categorie.categories_name)
+                    if (currentCategorie.name===categorie.categories_name)
                     {
                         isSelected=true
                     }
 
                  })
+
              %>
-        <option value="<%= categorie.id %>" <%= isSelected?"selected":"" %> ><%= categorie.categories_name %></option>
+
+            <option value="<%= categorie.id %>" <%= isSelected?"selected":"" %> ><%= categorie.categories_name %></option>
+
         <% }) %>
 
     </select>

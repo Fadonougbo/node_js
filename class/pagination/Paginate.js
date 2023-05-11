@@ -40,6 +40,7 @@ export class Paginate
     getHtmlLinks()
     {
         let links=[]
+        
         for(let i=1;i<=this.totalePage;i++)
         {
             links.push(`<a href="${this.baseUrl}?p=${i}">${i}</a>`)

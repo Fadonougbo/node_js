@@ -7,6 +7,7 @@
 <% 
 const [success_message]=res.flash("success_message")
 const [error_message]=res.flash("error_message")
+
 %>
 
 <main>
@@ -25,11 +26,8 @@ const [error_message]=res.flash("error_message")
     </section>
     <% articles.forEach((article) => { %>
         <% 
-            const articleName=article.articles_name
 
-            const articleSlug=article.articles_slug
-
-            const articleId=article.id
+            const {id,articles_name,articles_slug}=article
 
         %>
      <div>
@@ -37,17 +35,20 @@ const [error_message]=res.flash("error_message")
             <thead>
                 <tr>
                     <th>Name</th>
+                    <th>categorie</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><a href="/show/<%= articleSlug %>/<%= articleId %>"><%= articleName %></a></td>
+                    <td><a href="/show/<%= articles_slug %>/<%= id %>"><%= articles_name %></a></td>
                     <td>
-                        <a href="/admin/update/<%= articleSlug %>/<%= articleId %>?pos=<%= paginationParams %>">Update</a>
+                        <%- include("../home/categorieList",{categories,articles_name}) %>
                     </td>
                     <td>
-                        <form action="/admin/delete/<%= articleSlug %>/<%= articleId %>?pos=<%= paginationParams %>" method="POST">
+                        <a href="/admin/update/<%= articles_slug %>/<%= id %>?pos=<%= paginationParams %>">Update</a>
+
+                        <form action="/admin/delete/<%= articles_slug %>/<%= id %>?pos=<%= paginationParams %>" method="POST">
                             <button type="submit">Delete</button>
                         </form>
                     </td>

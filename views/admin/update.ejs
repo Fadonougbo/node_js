@@ -10,12 +10,15 @@ const {id,articles_name,articles_content,article_created_at,articles_slug}=curre
 const error_message=res.flash('error_message')
 const success_message=res.flash("success_message")
 
+
 %>
 
 <main>
     <h1>Modification d'article</h1>
+
     <%= error_message||"" %>
     <%= success_message||"" %>
+
     <form action="" method="POST">
         <div>
             <input type="text" name="name" id="" value="<%= body?.name||articles_name %>"> 

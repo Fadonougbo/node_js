@@ -13,20 +13,17 @@
     </div>
     <% articles.forEach((article) => { %>
         <% 
-            const date=article.article_created_at
+        const {id,article_created_at,articles_slug,articles_content,articles_name}=article
 
-            const formatDate=(new Date(date)).toLocaleDateString()
+            const formatDate=(new Date(article_created_at)).toLocaleDateString()
 
-            const subStrArticle=article.articles_content.substr(0,200)+"..."
-
-            const articleName=article.articles_name
+            const subStrArticle=articles_content.substr(0,200)+"..."
         %>
      <div>
         <h2>
-            <%= articleName %>
-           <%- include("./categorieList.ejs",{categories,articleName}) %>
+            <%= articles_name %>
+            <%- include("./categorieList",{categories,articles_name}) %>
             <span><%= formatDate %></span>
-
         </h2>
         <p>
             <%= subStrArticle  %>
