@@ -12,7 +12,6 @@ import { CreateArticle } from "../App/modules/admin/CreateArticle.js"
 import { DashBoad } from "../App/modules/dashboad/DashBoad.js"
 import { AdminVerification } from "../App/modules/dashboad/AdminVerification.js"
 import { Logout } from "../App/modules/dashboad/Logout.js"
-//import fastifyJwt from "@fastify/jwt"
 
 /**
  * @var {fastify} fastify
@@ -37,8 +36,6 @@ new App(fastify,
             childrenModule:[AdminVerification,Logout]
         }
     ])
-
-
 
 try
 {

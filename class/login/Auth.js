@@ -1,5 +1,3 @@
-import { createReadStream } from "node:fs"
-import { convertFileUrlToPath } from "../../functions/convertFileUrlToPath.js"
 import { TokenGenerator } from "../TokenGenerator.js"
 
 export class Auth
