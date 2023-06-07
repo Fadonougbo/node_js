@@ -1,12 +1,15 @@
 <%- include('../mutualViews/header.ejs',
 {
-    title:"Admin"
+    title:"Admin",
+    request:req
 })
 %>
 
 <% 
 const [success_message]=res.flash("success_message")
 const [error_message]=res.flash("error_message")
+
+
 
 %>
 
@@ -30,32 +33,32 @@ const [error_message]=res.flash("error_message")
             const {id,articles_name,articles_slug}=article
 
         %>
-     <div>
-        <table>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>categorie</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><a href="/show/<%= articles_slug %>/<%= id %>"><%= articles_name %></a></td>
-                    <td>
-                        <%- include("../home/categorieList",{categories,articles_name}) %>
-                    </td>
-                    <td>
-                        <a href="/admin/update/<%= articles_slug %>/<%= id %>?pos=<%= paginationParams %>">Update</a>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>categorie</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><a href="/show/<%= articles_slug %>/<%= id %>"><%= articles_name %></a></td>
+                        <td>
+                            <%- include("../home/categorieList",{categories,articles_name}) %>
+                        </td>
+                        <td>
+                            <a href="/admin/update/<%= articles_slug %>/<%= id %>?pos=<%= paginationParams %>">Update</a>
 
-                        <form action="/admin/delete/<%= articles_slug %>/<%= id %>?pos=<%= paginationParams %>" method="POST">
-                            <button type="submit">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-     </div>
+                            <form action="/admin/delete/<%= articles_slug %>/<%= id %>?pos=<%= paginationParams %>" method="POST">
+                                <button type="submit">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     <% }) %>
 </main>
 

@@ -6,15 +6,16 @@
 
 <% 
 
-const [message]=res.flash("error")
-console.log(message);
+const [error_message]=res.flash("error")
+const [success_message]=res.flash("success")
 
 %>
 
 <main>
     <h1>Login</h1>
     <div>
-        <%= message||"" %>
+        <%= error_message||"" %>
+        <%= success_message||"" %>
     </div>
     <form action="" method="POST" >
         <div>

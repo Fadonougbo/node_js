@@ -12,4 +12,15 @@
     </title>
 </head>
 <body>
+<header>
+  <nav>
+    <a href="/">Home</a>
+    <% if (locals.request && locals.request.session.get("admin")) { %>
+      <a href="/admin">Admin</a>
+      <a href="/logout">Deconnection</a>
+    <% } else { %>
+      <a href="/login/dashboad">Connection</a>
+    <% } %>
+  </nav>
+</header>
     

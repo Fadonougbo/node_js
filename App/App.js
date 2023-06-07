@@ -10,6 +10,7 @@ import fastifyMailer from "fastify-mailer"
 import ejs from "ejs";
 import {readFileSync} from "node:fs"
 import { convertFileUrlToPath } from "../functions/convertFileUrlToPath.js";
+import fastifyBcrypt from "fastify-bcrypt";
 
 export class App 
 {   
@@ -67,6 +68,10 @@ export class App
         this.fastify.register(fastifyJwt,{
             secret:"gautier",
             
+        })
+
+        this.fastify.register(fastifyBcrypt, {
+            saltWorkFactor: 8
         })
     }
 

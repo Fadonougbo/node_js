@@ -22,6 +22,11 @@ export class DashBoad extends Auth
     async index(req,res)
     {
 
+        if(req.session.get("admin"))
+        {
+            return res.redirect("/admin");
+        }
+
         const {body}=req
         let validationError={}
 
@@ -30,8 +35,8 @@ export class DashBoad extends Auth
             try 
             {
                 const articleShema=z.object({
-                    user_name:z.string(),
-                    user_email:z.string().email({message:"Le format de l'email est invalide"})
+                    user_name:z.string().min(1,{message:"Ce champ ne peut pas etre vide"}),
+                    user_email:z.string().min(1,{message:"Ce champ ne peut pas etre vide"}).email({message:"Le format de l'email est invalide"})
                     
                 })
 
@@ -39,24 +44,40 @@ export class DashBoad extends Auth
 
                 const user=await this.userExist(userInfo,this.tableName)
 
-               if(user.length>0)
+               if(Array.isArray(user) && user.length>0)
                {
-                 //const status=await this.sendVerificationMail(userInfo.user_email)
+                    const {id,user_email,token}=user[0]
 
-                 /* if(status)
-                 {
+                    const newtoken=await this.insertToken(id)
 
-                 } */
+                    if(token)
+                    {
+                        this.sendVerificationMail(user_email,id,newtoken)
+                        .then((status)=>
+                        {
+                            if(status)
+                            {
+                                req.flash("success","Veillez verifié votre boite mail pour la confirmation ")
+                                return  res.redirect("/login/dashboad")
+                            }else 
+                            {
+                                req.flash("error","Email non envoyé")
+                                return  res.redirect("/login/dashboad")
+                            }
+                            
+                        })
+                        
+                    }
+
                }else 
                {
                  req.flash("error","Cet administrateur n'exist pas ")
-
-                 res.redirect("/login/dashboad")
+                 return res.redirect("/login/dashboad")
                }
 
             }catch(err)
             {
-                console.log(err.message);
+                //console.log(err.message);
 
                 const {errors}=err 
 
@@ -73,9 +94,8 @@ export class DashBoad extends Auth
             }
 
         }
-
-
         return res.view("views/dashboad/dashboad",{body,validationError,res})
+
     }
 
 }

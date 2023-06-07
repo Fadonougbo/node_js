@@ -15,10 +15,18 @@ export class Admin extends Read
         this.tableName="articles"
 
         this.fastify.get("/admin",this.index)
+
+        
     }
 
     async index(req,res)
-    {
+    {   
+
+        if(!req.session.get("admin"))
+        {
+            return  res.redirect("/login/dashboad")
+        }
+
         const totalArticles=await this.getTotaleElement(this.tableName)
 
         const limit=6
@@ -37,10 +45,8 @@ export class Admin extends Read
         const [articles,idList]=await this.getElements(limit,offset,this.tableName)
 
         const categories=await this.getArticlesCategorie(idList)
-
         const paginationParams=req.query.p||1
-
-        return res.view("views/admin/adminHome.ejs",{articles,links,categories,paginationParams,res})
+        return res.view("views/admin/adminHome",{articles,links,categories,paginationParams,res,req})
     }
 
 }

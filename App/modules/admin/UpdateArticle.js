@@ -19,6 +19,11 @@ export class UpdateArticle extends Update
     async index(req,res)
     {
 
+        if(!req.session.get("admin"))
+        {
+            return  res.redirect("/login/dashboad")
+        }
+
         const {id}=req.params
         const currentArticle=await this.getElement(id,this.tableName)
         const categories=await this.getArticlesCategorie(id)
@@ -53,7 +58,6 @@ export class UpdateArticle extends Update
                 if(val>=1)
                 {
                     req.flash("error_message","Ce slug exist déja")
-
                 }else{
 
                     await this.updateArticle(id,req.body)
@@ -82,7 +86,7 @@ export class UpdateArticle extends Update
         }
 
 
-        return res.view("views/admin/update.ejs",{currentArticle,validationError,allCategorieInfo,categories,body,res})
+        return res.view("views/admin/update",{currentArticle,validationError,allCategorieInfo,categories,body,res,req})
     }
 
 }

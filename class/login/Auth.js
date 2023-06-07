@@ -1,5 +1,6 @@
 import { createReadStream } from "node:fs"
 import { convertFileUrlToPath } from "../../functions/convertFileUrlToPath.js"
+import { TokenGenerator } from "../TokenGenerator.js"
 
 export class Auth
 {
@@ -23,16 +24,38 @@ export class Auth
 
     /**
      * 
+     * @param {string} token 
+     * @param {number} id 
+     * 
+     */
+    async insertToken(id)
+    {
+        try
+        {
+
+        
+            const timestamp=Date.now()+(1000*60*60*24)
+            const token=await TokenGenerator.getToken(id);
+
+            const query=`UPDATE administration SET token=?,token_created_at=? WHERE id=?`
+            const connection=await this.fastify.mysql.getConnection()
+            const [rows,fields]=await connection.query(query,[token,timestamp,id])
+            connection.release()
+
+            return rows.affectedRows===1?token:false
+        }catch(e)
+        {
+            //console.log(e);
+        }
+    }
+
+    /**
+     * 
      * @param {string} link 
      * @returns {string} html
      */
     getViewStream(link)
     {
-        /* const path=convertFileUrlToPath(import.meta.url,3,"/views/email_message.html")
- 
-        const readStream=createReadStream(path)
-
-        return readStream; */
 
         const html=`
 
@@ -55,11 +78,9 @@ export class Auth
                         <h2>Message de verification</h2>
                         <p>
                             Veillez cliqué sur ce lien pour vous connecter
-                            <button>
-                                <a href='${link}'>
+                                <a href='http://localhost:8001${link}'>
                                     click me
                                 </a>
-                            </button> 
                         </p>
                     </div>
                 </body>
@@ -71,37 +92,25 @@ export class Auth
 
     /**
      * 
-     * @param {string} userMail 
+     * @param {string} userMail
+     * @param {number} userId 
+     * @param {string} token 
      */
-    async sendVerificationMail(userMail)
+    async sendVerificationMail(userMail,userId,token)
     {
         const { mailer } = this.fastify
-
-        let emailSend=false
-
+  
         const params={
             from:"test@gmail.com",
             to: userMail,
             subject: 'Confirmation de compte',
-            html: this.getViewStream("#"),
+            html: this.getViewStream(`/auth/${userId}/${token}`),
             priority:"hight"
           }
 
-        mailer.sendMail(params, (errors, info) => {
+        mailer.sendMail(params, (errors, info) => {})
 
-            if (errors) {
-              this.fastify.log.error(errors)
-        
-             console.log(errors);
-            }else 
-            {
-                emailSend=true
-            }
+        return true
 
-        })
-
-        return emailSend
-
-                
     }
 }

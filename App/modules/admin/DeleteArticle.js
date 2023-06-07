@@ -16,6 +16,11 @@ export class DeleteArticle extends Delete
 
     async index(req,res)
     {
+        if(!req.session.get("admin"))
+        {
+            return  res.redirect("/login/dashboad")
+        }
+        
         const {slug,id}=req.params
 
         const url=new URL(req.url,`http://${req.headers.host}`)

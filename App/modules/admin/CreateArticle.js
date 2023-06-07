@@ -19,6 +19,11 @@ export class CreateArticle extends Create
     async index(req,res)
     {
 
+        if(!req.session.get("admin"))
+        {
+            return  res.redirect("/login/dashboad")
+        }
+
         const allCategorieInfo=await this.getAllCategorieInfo()
 
         const allCategorieId=allCategorieInfo.map((el)=>el.id+'')
@@ -73,7 +78,7 @@ export class CreateArticle extends Create
 
         const {body}=req
 
-        return res.view("views/admin/create",{validationError,allCategorieInfo,body,res})
+        return res.view("views/admin/create",{validationError,allCategorieInfo,body,res,req})
     }
 
 }

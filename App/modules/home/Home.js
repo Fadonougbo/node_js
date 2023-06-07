@@ -46,7 +46,7 @@ export class Home extends Read
 
             const categories=await this.getArticlesCategorie(idList)
 
-            return res.view("views/home/home",{articles,links,categories});
+            return res.view("views/home/home",{articles,links,categories,req});
 
         } catch (error) {
                 

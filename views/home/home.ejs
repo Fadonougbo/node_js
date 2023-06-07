@@ -1,9 +1,9 @@
 <%- include('../mutualViews/header.ejs',
 {
-    title:"Home"
+    title:"Home",
+    request:req
 })
 %>
-
 <main>
     <h1>Home</h1>
     <div>
@@ -19,17 +19,17 @@
 
             const subStrArticle=articles_content.substr(0,200)+"..."
         %>
-     <div>
-        <h2>
-            <%= articles_name %>
-            <%- include("./categorieList",{categories,articles_name}) %>
-            <span><%= formatDate %></span>
-        </h2>
-        <p>
-            <%= subStrArticle  %>
-            <a href="/show/<%= article.articles_slug %>/<%= article.id %>">lire la suite</a>
-        </p>
-     </div>
+        <div>
+            <h2>
+                <%= articles_name %>
+                <%- include("./categorieList",{categories,articles_name}) %>
+                <span><%= formatDate %></span>
+            </h2>
+            <p>
+                <%= subStrArticle  %>
+                <a href="/show/<%= article.articles_slug %>/<%= article.id %>">lire la suite</a>
+            </p>
+        </div>
     <% }) %>
 </main>
 

@@ -25,6 +25,6 @@ export class ShowArticle extends Read
 
         const categories=await this.getArticlesCategorie(id)
         
-        return res.view("views/home/showArticle.ejs",{article,categories});
+        return res.view("views/home/showArticle",{article,categories,req});
     }
 }
