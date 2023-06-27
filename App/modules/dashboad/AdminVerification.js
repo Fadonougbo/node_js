@@ -16,9 +16,15 @@ export class AdminVerification extends Read
         this.fastify.get("/auth/:id/:token",this.index)
     }
 
+    /**
+     * 
+     * @param {import("fastify").FastifyRequest} req 
+     * @param {*} res 
+     * @returns 
+     */
     async index(req,res)
     {   
-
+        
         const {id,token}=req.params
         const user=await this.getElement(id,"administration")
 
@@ -52,6 +58,7 @@ export class AdminVerification extends Read
             const connection=await this.fastify.mysql.getConnection()
             const [rows,fields]=await connection.query(query,[id])
             connection.release()
+            
         }catch(e)
         {
             console.log(e);

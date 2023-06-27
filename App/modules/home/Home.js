@@ -4,17 +4,20 @@ import { Paginate } from "../../../class/pagination/Paginate.js"
 
 export class Home extends Read
 {
-
+    /**
+     * 
+     * @param {import("fastify").FastifyInstance} fastify 
+     */
     constructor(fastify)
     {   
 
         super(fastify)
-
         this.fastify=fastify
 
         this.index=this.index.bind(this)
 
         this.tableName="articles"
+        
 
         /**
          * Router
